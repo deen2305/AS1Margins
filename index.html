@@ -47,14 +47,14 @@
         /* Navigation Table of Contents */
         #toc {
             position: fixed;
-            top: 80px;
+            top: 120px;
             right: 30px;
             background: white;
             padding: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             max-width: 220px;
-            max-height: 70vh;
+            max-height: 65vh;
             overflow-y: auto;
             z-index: 100;
             border-left: 4px solid var(--accent-color);
@@ -505,20 +505,6 @@
             margin-top: 4rem;
         }
 
-        /* Word Count Badge */
-        .word-count {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--accent-color);
-            color: white;
-            padding: 0.8rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 100;
-        }
 
         /* Special Pull Quote Style */
         .pull-quote {
@@ -748,7 +734,7 @@
 
         /* Print Styles */
         @media print {
-            #toc, #reading-progress, .word-count, .quiz-container {
+            #toc, #reading-progress, .quiz-container {
                 display: none;
             }
 
@@ -798,9 +784,6 @@
             <li><a href="#references">References</a></li>
         </ul>
     </nav>
-
-    <!-- Word Count Display -->
-    <div class="word-count">~1,850 words</div>
 
     <header>
         <h1>Through the Screen Darkly: Lacan, Selfies, and the Illusion of a Whole Self</h1>
