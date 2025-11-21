@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A creative portfolio exploring Lacan's Mirror Stage through the lens of contemporary selfie culture">
+    <meta name="author" content="SOAS University Student">
+    <title>Through the Screen Darkly: Lacan, Selfies, and the Illusion of a Whole Self</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #4a4a4a;
+            --accent-color: #d4af37;
+            --background: #fefefe;
+            --text-color: #2c2c2c;
+            --quote-bg: #f5f5f5;
+            --border-color: #e0e0e0;
+            --highlight-color: #fff3cd;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background: var(--background);
+            font-size: 18px;
+        }
+
+        /* Reading Progress Bar */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #f4a261);
+            z-index: 1000;
+            transition: width 0.2s ease;
+        }
+
+        /* Navigation Table of Contents */
+        #toc {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            max-width: 280px;
+            max-height: 75vh;
+            overflow-y: auto;
+            z-index: 100;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        #toc h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        #toc ul {
+            list-style: none;
+        }
+
+        #toc li {
+            margin-bottom: 0.7rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        #toc li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #toc li:hover::before {
+            opacity: 1;
+        }
+
+        #toc a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.3rem 0;
+        }
+
+        #toc a:hover {
+            color: var(--accent-color);
+            padding-left: 0.5rem;
+        }
+
+        #toc a.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            padding-left: 0.5rem;
+        }
+
+        #toc a.active::before {
+            opacity: 1;
+        }
+
+        /* Custom scrollbar for TOC */
+        #toc::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #toc::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        #toc::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        #toc::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Hide TOC on mobile */
+        @media (max-width: 1200px) {
+            #toc {
+                display: none;
+            }
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            font-family: 'Playfair Display', 'Georgia', serif;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-style: italic;
+            opacity: 0.95;
+            font-family: 'Baskerville', Georgia, serif;
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1rem 0;
+            margin: 1rem auto;
+            max-width: 700px;
+            color: var(--accent-color);
+        }
+
+        .meta-info {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        article {
+            background: white;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            margin-top: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            border-left: 6px solid var(--accent-color);
+            padding-left: 1.5rem;
+            scroll-margin-top: 80px;
+            font-family: 'Playfair Display', 'Georgia', serif;
+            line-height: 1.3;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+            margin-top: 1rem;
+            margin-left: 0;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin: 2.5rem 0 1.2rem 0;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        p {
+            margin-bottom: 1.3rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Lacanian Terms - Tooltip Effect */
+        .lacanian-term {
+            background: var(--highlight-color);
+            padding: 0 0.3rem;
+            border-radius: 2px;
+            cursor: help;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+
+        .lacanian-term:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Figure Styles */
+        figure {
+            margin: 2.5rem 0;
+            background: var(--quote-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        figure:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .blog-image {
+                height: 300px;
+            }
+        }
+
+        figcaption {
+            font-style: italic;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        /* Blockquote Styles */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--secondary-color);
+            background: var(--quote-bg);
+            padding: 1.5rem;
+            padding-left: 2rem;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: -0.5rem;
+            left: 0.5rem;
+            font-family: Georgia, serif;
+            opacity: 0.3;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-style: normal;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Emphasis Styles */
+        em {
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Horizontal Rule */
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 3rem 0;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            color: white;
+        }
+
+        .quiz-container h2 {
+            color: white;
+            border-left: 4px solid white;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-question h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.9);
+            color: var(--primary-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: white;
+            transform: translateX(10px);
+            border-color: var(--accent-color);
+        }
+
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .quiz-btn {
+            background: white;
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .quiz-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quiz-results {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-results.show {
+            display: block;
+        }
+
+        .quiz-score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        /* References Section */
+        .references {
+            background: var(--quote-bg);
+            padding: 2rem;
+            border-radius: 4px;
+            margin-top: 4rem;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .references h2 {
+            border-left: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .references p {
+            margin-bottom: 1rem;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-indent: -2rem;
+            padding-left: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        /* Word Count Badge */
+        .word-count {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        /* Special Pull Quote Style */
+        .pull-quote {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 3rem auto;
+            max-width: 600px;
+            font-weight: 500;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: -1rem;
+            left: 0;
+            font-family: Georgia, serif;
+        }
+
+        /* Intro Paragraph Style */
+        .intro-paragraph {
+            font-size: 1.15rem;
+            color: var(--secondary-color);
+            font-style: italic;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--quote-bg);
+            border-radius: 4px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Key Concepts Box */
+        .key-concepts {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .key-concepts h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .key-concepts ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-concepts li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-concepts li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-year {
+            flex-shrink: 0;
+            width: 80px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            text-align: right;
+            padding-top: 0.3rem;
+        }
+
+        .timeline-content {
+            flex-grow: 1;
+            background: var(--quote-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 1.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-color);
+            border: 3px solid var(--background);
+            border-radius: 50%;
+        }
+
+        .timeline-content h4 {
+            margin: 0 0 0.8rem 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 40px;
+            }
+
+            .timeline-year {
+                width: 60px;
+                font-size: 0.95rem;
+            }
+
+            .timeline-item {
+                gap: 1rem;
+            }
+        }
+
+        /* Glossary Styles */
+        .glossary {
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .glossary h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .glossary-term {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .glossary-term dt {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-term dd {
+            margin: 0;
+            color: var(--secondary-color);
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 2.5rem 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .image-placeholder {
+                height: 300px;
+            }
+
+            .word-count {
+                bottom: 10px;
+                right: 10px;
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            #toc, #reading-progress, .word-count, .quiz-container {
+                display: none;
+            }
+
+            body {
+                font-size: 12pt;
+                line-height: 1.6;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            figure {
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: var(--text-color);
+                text-decoration: none;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress"></div>
+
+    <!-- Table of Contents -->
+    <nav id="toc">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#registers">The Three Registers</a></li>
+            <li><a href="#desire">Desire & the Phallus</a></li>
+            <li><a href="#gender">Gender & Power</a></li>
+            <li><a href="#decolonising">Decolonising Lacan</a></li>
+            <li><a href="#reflection">Reflection</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#glossary">Glossary</a></li>
+            <li><a href="#references">References</a></li>
+        </ul>
+    </nav>
+
+    <!-- Word Count Display -->
+    <div class="word-count">~1,850 words</div>
+
+    <header>
+        <h1>Through the Screen Darkly: Lacan, Selfies, and the Illusion of a Whole Self</h1>
+        <p class="subtitle">A contemporary "mirror stage": the self-encountered as image</p>
+        <div class="meta-info">
+            Creative Portfolio Blogpost | The Margins of Philosophy
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <!-- Opening Section -->
+            <section id="introduction">
+                <figure>
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=1200&q=80" alt="Person taking selfie with smartphone reflection" class="blog-image">
+                    <figcaption>A contemporary "mirror stage": the self-encountered as image.</figcaption>
+                </figure>
+
+                <p class="intro-paragraph">
+                    When I want to take a selfie, there is a reaction in my body, leading to a tilt of the chin, usually a smile or a facial expression, whilst aligning my face with the image I expect the camera to return. This leads to a moment in which I am suspended between two separate identities, the shifting unstable sense of 'myself' that moves through the world and a figure that could be seen to be polished on my screen.
+                </p>
+
+                <p>
+                    This small everyday moment contains a structure Lacan insisted shapes subjectivity itself. What I see in a selfie is not simply seen as a picture, but an image that is more coherent than my lived experience. This concept is understood to be the <span class="lacanian-term">Imaginary</span> at work.
+                </p>
+
+                <blockquote>
+                    "the transformation that takes place in the subject when he assumes an image"
+                    <cite>— Jacques Lacan, Écrits (2006)</cite>
+                </blockquote>
+
+                <p>
+                    Lacan describes the mirror stage to be this transformation that takes place in the subject when he assumes an image. The infant, confronted with its mirror reflection, seen as unified, stable form contrasts sharply with its proprioceptive experience of bodily fragmentation. In a moment Lacan famously calls to be "jubilant", the child identifies with this total form. However, the identification is from the beginning understood to be alienating. Ego is formed in an image that does not match lived experience. Mirror does not reflect the subject; it produces it.
+                </p>
+
+                <p>
+                    In this idea, the selfie is not only a merely digital habit but understood as a structural drama. The camera provides what Lacan would refer to as the term <em>"imago of total form"</em> — an externally presented unity, superseding the instability of interior sensation. This is satisfied by almost an ease, within seeing yourself as a coherent object. However, Lacan states that the ego is formed within the mirror stage, thus "will henceforth determine the subject in their symbolic relations" (Lacan, 2006). Therefore, the image becomes a destiny the subject continually attempts to live up to.
+                </p>
+
+                <figure>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80" alt="Multiple reflections fragmented identity" class="blog-image">
+                    <figcaption>Fragmented self vs idealized imago: the tension that the ego is built upon</figcaption>
+                </figure>
+
+                <p>
+                    The identifiable split between my selfie image and lived body represents what Lacan refers to as <span class="lacanian-term">méconnaissance</span> (misrecognition). The selfie-self is smoother, more legible, more whole. Promising what Lacan calls a fictional mastery. However, the more ideal the image the more it highlights the gap between the self that is lived and the self that is seen. The image offers a fantasy of completion — a fantasy that fuels desire.
+                </p>
+            </section>
+
+            <!-- The Registers Section -->
+            <section id="registers">
+                <h2>The Registers: Real, Imaginary, Symbolic — And the Algorithmic</h2>
+
+                <div class="key-concepts">
+                    <h3>Key Lacanian Concepts</h3>
+                    <ul>
+                        <li><strong>The Real:</strong> Unrepresentable raw sensation of bodily being</li>
+                        <li><strong>The Imaginary:</strong> Domain of images, identifications, and ego formation</li>
+                        <li><strong>The Symbolic:</strong> Network of language and law structuring subjects</li>
+                    </ul>
+                </div>
+
+                <p>
+                    Lacan's three registers — the <span class="lacanian-term">Real</span>, <span class="lacanian-term">Imaginary</span>, <span class="lacanian-term">Symbolic</span> — surprisingly relate well with digital experience.
+                </p>
+
+                <p>
+                    The <strong>Real</strong> is the unrepresentable, raw sensation of being a body, with the intensities, anxieties and discontinuities. The <strong>Imaginary</strong> is the domain of images, identifications and mirrors in which the ego is formed and selfies circulate. The <strong>Symbolic</strong> is the network of language and law through which subjects become legible.
+                </p>
+
+                <p>
+                    In contemporary life, the Symbolic increasingly takes an algorithmic form. Platforms on social media rank, classify and circulate images according to unclear rules, transforming the display of selfhood into a system of technical-symbolic governance. The moment a selfie is uploaded, it is absorbed into a network in which visibility is restricted through code. This framework mimics Lacan's claim that symbolic law determines the subject's place within the social field. The <span class="lacanian-term">"Name-of-the-Father"</span> becomes the name of the platform.
+                </p>
+
+                <figure>
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&q=80" alt="Social media interface and algorithms" class="blog-image">
+                    <figcaption>The symbolic as algorithm: a coded system of categorisation and visibility</figcaption>
+                </figure>
+
+                <p>
+                    Algorithms interpret which images deserve prominence whilst which remain to be unseen. They strengthen norms related to race, beauty and gender, filtering faces through categories that determine legibility and worth. Through this, the symbolic is not only simply linguistic — it is technical and infrastructural. The subject's very appearance is mediated by systems of power that operate beneath the threshold of conscious experience.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Desire, Lack, and the Phallus Section -->
+            <section id="desire">
+                <h2>Desire, Lack, and the Phallus in the Age of the Selfie</h2>
+
+                <blockquote>
+                    "The Phallus is not the penis but the privileged signifier of significance itself"
+                    <cite>— Rosalind Minsky (1996)</cite>
+                </blockquote>
+
+                <p>
+                    To decipher why images release such a force, Minsky's reading of Lacan is indispensable, clarifying that the Phallus is not the penis but the privileged signifier of significance itself. It functions as the linchpin around which meaning and desire are organized. Importantly, the <span class="lacanian-term">Phallus</span> represents what is lacked — it is seen to be the signifier of a structural absence rather than a possession.
+                </p>
+
+                <p>
+                    This view operates intensively on social media. The highly curated aesthetic, perfect selfie and viral moment — these all function as contemporary phallic signifiers, promising recognition, coherence, desirability. However, each time I receive a like or notification, the satisfaction falls so fast. These digital signifiers do not deliver wholeness; they expose its impossibility.
+                </p>
+
+                <blockquote>
+                    "appears to obscure lack, therefore difference"
+                    <cite>— Rosalind Minsky on the Phallus (1996)</cite>
+                </blockquote>
+
+                <p>
+                    Moreover, Minsky discusses how the Phallus "appears to obscure lack, therefore difference" yet its symbolic function is to reveal that lack as an engine of desire. The more I attempt to produce an image of myself that embodies the illusion of solidity, the more I confront the fragmentation that image conceals.
+                </p>
+
+                <figure>
+                    <img src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?w=1200&q=80" alt="Hand holding phone with notifications and likes" class="blog-image">
+                    <figcaption>The digital phallic signifier: a currency of desire that intensifies lack</figcaption>
+                </figure>
+
+                <p>
+                    If a selfie promises consistency, the algorithmic metrics surrounding it form a feedback loop of desire that perpetuates alienation. The subject is caught between imaginary unity of the image and symbolic demand to be seen.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Gender Section -->
+            <section id="gender">
+                <h2>Gender, Power, and Misrecognition</h2>
+
+                <p>
+                    A specific question in mind is how gender complicates Lacan's model. Lacan's account positions the masculine subject as symbolically aligned with "having" the Phallus, whilst the feminine is structured as "being" the Phallus, situated as lack. This viewpoint has long been critiqued for reinforcing patriarchal norms.
+                </p>
+
+                <p>
+                    Online, these views take a new life. Beauty filters reproduce Eurocentric standards that privilege lighter skin, narrow noses and symmetrical faces. Facial recognition systems misidentify darker skin at significantly higher rates. Non-binary and gender-nonconforming faces are frequently forced into binary categories. The Symbolic and Imaginary orders of digital media are therefore steeped in structural misrecognition.
+                </p>
+
+                <figure>
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&q=80" alt="Diverse faces and digital identity" class="blog-image">
+                    <figcaption>Misrecognition as structural: race, gender, and visibility</figcaption>
+                </figure>
+
+                <p>
+                    Feminist scholars such as Irigaray argue how Lacan's system privileges male-coded subjectivity. However, Minsky suggested that Lacan destabilises masculine authority through revealing the Phallus as a signifier of lack rather than mastery. This reinterpretation opens space to rethink gender as multiple, fluid and not beholden to phallic logic of lack.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Decolonising Lacan Section -->
+            <section id="decolonising">
+                <h2>Decolonising Lacan: Who Gets to Be Recognised?</h2>
+
+                <p>
+                    Another key challenge that should be questioned is whether Lacan's theory extends beyond Eurocentric family structures. Assuming that a western nuclear family, the heteronormative Oedipal dynamic and paternal law structure subjectivity. However, colonialism imposed symbolic systems that classified, controlled and misrecognised colonized subjects — often denying them visibility in the social order.
+                </p>
+
+                <p>
+                    Digital infrastructures reproduce these asymmetries. Algorithmic systems disproportionately suppress images of Black, Brown, queer and disabled bodies. The symbolic here is not only linguistic but technopolitical. Who becomes visible and who is rendered illegible is inseparable from histories of power.
+                </p>
+
+                <p>
+                    Nevertheless, the Imaginary can be a site of counter-production — a space where new images interrupt the symbolic order and articulate identities that dominant systems fail to recognize.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Reflection Section -->
+            <section id="reflection">
+                <h2>Reflection: Meeting Myself Through Glass</h2>
+
+                <div class="pull-quote">
+                    Sometimes, just before my phone turns on, I'm able to catch my reflection in the dark screen. It's blurry, fluid — closer to what Lacan would call the Real.
+                </div>
+
+                <blockquote>
+                    "orthopaedic form"
+                    <cite>— Jacques Lacan describing the ego (2006)</cite>
+                </blockquote>
+
+                <p>
+                    When the screen lights up, everything snaps into clarity. The Real disappears, replaced by the stable, idealized selfie-self that reassures me with its coherence. Lacan's description of the ego as an <em>"orthopaedic form"</em> feels accurate — the image props me up even as it distances me from myself.
+                </p>
+
+                <p>
+                    Through screens, I encounter a self that is simultaneously mine and not mine. The more I attempt to perfect this image, the further I drift from the unstable, shifting sense of being that the Real always disrupts. Yet perhaps this tension is not something to overcome but something to recognise. Subjectivity emerges not in wholeness but within the space between experience and image.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Timeline Section -->
+            <section id="timeline">
+                <h2>From Mirror to Screen: A Timeline</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1936</div>
+                        <div class="timeline-content">
+                            <h4>Lacan's Mirror Stage</h4>
+                            <p>Jacques Lacan first presents the mirror stage theory at the International Psychoanalytic Congress, theorizing how the infant's recognition of its reflection creates the <span class="lacanian-term">Imaginary</span> order and initiates ego formation through alienating identification.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1949</div>
+                        <div class="timeline-content">
+                            <h4>Published Theory</h4>
+                            <p>Lacan publishes the definitive version of "The Mirror Stage as Formative of the Function of the I," establishing <span class="lacanian-term">méconnaissance</span> (misrecognition) as central to subject formation.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1958</div>
+                        <div class="timeline-content">
+                            <h4>The Phallus as Signifier</h4>
+                            <p>Lacan's seminar "The Signification of the Phallus" articulates the <span class="lacanian-term">Phallus</span> not as anatomical but as the privileged signifier of lack — a concept Minsky later clarifies as organizing all meaning around structural absence.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2010</div>
+                        <div class="timeline-content">
+                            <h4>Instagram & the Digital Mirror</h4>
+                            <p>Instagram launches, creating unprecedented platforms for self-imaging. The <span class="lacanian-term">Symbolic</span> order now operates algorithmically, determining which images achieve visibility and social recognition.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2015-Present</div>
+                        <div class="timeline-content">
+                            <h4>Algorithmic Beauty Standards</h4>
+                            <p>Beauty filters and facial recognition systems embed racialized and gendered norms into the technical infrastructure of self-representation. The mirror stage repeats endlessly through screens, intensifying the gap between lived experience and idealized image.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem;">
+                    This timeline reveals how Lacan's mid-century psychoanalytic insights anticipate the structural dynamics of contemporary digital culture. The mirror that once initiated ego formation in infancy now operates continuously through smartphone screens, social media platforms, and algorithmic visibility systems. What Lacan identified as the foundational alienation of subjectivity — the split between embodied experience and idealized image — has become infrastructure.
+                </p>
+            </section>
+
+            <hr>
+
+            <!-- Conclusion -->
+            <section id="conclusion">
+                <h2>Conclusion: The Drama Continues</h2>
+
+                <p>
+                    The mirror stage is not confined to infancy — we repeat it each time we confront an image of ourselves and misrecognize coherence for truth. Digital mirrors transform this drama into a daily ritual. We meet ourselves as images, projecting fantasies of wholeness; we chase phallic signifiers that promise satisfaction but confirm lack. Our mirrors are now lit by pixels, but the structural relationship between image, desire and alienation remains unchanged.
+                </p>
+            </section>
+
+            <!-- Interactive Quiz Section -->
+            <section id="quiz">
+                <div class="quiz-container">
+                    <h2>Test Your Knowledge: Lacan & Selfie Culture</h2>
+
+                    <div id="quiz-content">
+                        <!-- Question 1 -->
+                        <div class="quiz-question active" data-question="1">
+                            <h3>Question 1 of 5</h3>
+                            <p>What does Lacan's "mirror stage" describe?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">A literal stage where children perform</div>
+                                <div class="quiz-option" data-correct="true">The moment when the infant recognizes itself in the mirror and forms the ego</div>
+                                <div class="quiz-option" data-correct="false">A social media platform feature</div>
+                                <div class="quiz-option" data-correct="false">The final stage of psychological development</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="quiz-question" data-question="2">
+                            <h3>Question 2 of 5</h3>
+                            <p>According to Lacan, what are the three registers of subjectivity?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">Id, Ego, Superego</div>
+                                <div class="quiz-option" data-correct="true">Real, Imaginary, Symbolic</div>
+                                <div class="quiz-option" data-correct="false">Conscious, Preconscious, Unconscious</div>
+                                <div class="quiz-option" data-correct="false">Body, Mind, Spirit</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="quiz-question" data-question="3">
+                            <h3>Question 3 of 5</h3>
+                            <p>What does Minsky clarify about the Phallus in Lacanian theory?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">It is a biological organ</div>
+                                <div class="quiz-option" data-correct="true">It is a signifier of significance, not the penis itself</div>
+                                <div class="quiz-option" data-correct="false">It represents masculine power exclusively</div>
+                                <div class="quiz-option" data-correct="false">It is irrelevant to contemporary theory</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="quiz-question" data-question="4">
+                            <h3>Question 4 of 5</h3>
+                            <p>How does the blog connect Lacan's Symbolic order to digital life?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">It rejects the connection entirely</div>
+                                <div class="quiz-option" data-correct="true">Algorithms function as a contemporary Symbolic order, governing visibility</div>
+                                <div class="quiz-option" data-correct="false">Social media replaces language completely</div>
+                                <div class="quiz-option" data-correct="false">The Symbolic only applies to pre-digital societies</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="quiz-question" data-question="5">
+                            <h3>Question 5 of 5</h3>
+                            <p>What does "méconnaissance" mean in Lacanian theory?</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" data-correct="false">Perfect self-knowledge</div>
+                                <div class="quiz-option" data-correct="true">Misrecognition – seeing the image as more coherent than lived experience</div>
+                                <div class="quiz-option" data-correct="false">Complete rejection of the mirror image</div>
+                                <div class="quiz-option" data-correct="false">A French social media term</div>
+                            </div>
+                            <div class="quiz-feedback"></div>
+                        </div>
+
+                        <!-- Results -->
+                        <div class="quiz-results">
+                            <h3>Your Results</h3>
+                            <div class="quiz-score"></div>
+                            <p class="quiz-message"></p>
+                            <button class="quiz-btn" onclick="restartQuiz()">Try Again</button>
+                        </div>
+                    </div>
+
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="prev-btn" onclick="previousQuestion()" disabled>Previous</button>
+                        <button class="quiz-btn" id="next-btn" onclick="nextQuestion()" disabled>Next</button>
+                        <button class="quiz-btn" id="submit-btn" onclick="submitQuiz()" style="display:none;">See Results</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Glossary -->
+            <section id="glossary">
+                <div class="glossary">
+                    <h3>Lacanian Glossary</h3>
+
+                    <div class="glossary-term">
+                        <dt>The Real</dt>
+                        <dd>The unrepresentable dimension of existence that resists symbolization. In Lacanian theory, the Real is raw sensation, bodily experience, and trauma that cannot be fully captured by language or images. It is what remains outside the symbolic order.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>The Imaginary</dt>
+                        <dd>The register of images, identifications, and mirror relations. The Imaginary is where the ego is formed through alienating identification with idealized images. In contemporary culture, selfies and social media operate primarily in the Imaginary register.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>The Symbolic</dt>
+                        <dd>The order of language, law, and social structures that determine subject positions. The Symbolic governs what can be recognized and valued within a culture. Today, algorithms function as a form of Symbolic law, determining visibility and social legibility.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>Méconnaissance (Misrecognition)</dt>
+                        <dd>The fundamental misrecognition at the heart of ego formation. The subject sees itself as more unified and coherent in the mirror image than it experiences itself to be. This gap between lived experience and reflected image structures all subsequent identifications.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>The Mirror Stage</dt>
+                        <dd>A developmental phase (6-18 months) when the infant recognizes itself in the mirror and forms the ego through identification with this external image. Lacan argues this creates a permanent split between the subject's fragmented bodily experience and its idealized self-image.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>The Phallus</dt>
+                        <dd>Not the biological penis, but the privileged signifier of lack and desire. The Phallus represents what is missing, organizing all meaning around structural absence. It functions as a "master signifier" that appears to promise wholeness but actually reveals the impossibility of completion.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>Imago</dt>
+                        <dd>The unified, idealized image of the body that the infant identifies with during the mirror stage. The imago provides a fiction of bodily wholeness that contrasts with the infant's actual experience of motor incoordination and fragmentation.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>Name-of-the-Father</dt>
+                        <dd>The paternal function that introduces the child into the Symbolic order. It represents law, prohibition, and social authority. In digital contexts, platform names (Instagram, TikTok) function as contemporary "Names-of-the-Father," governing access to recognition.</dd>
+                    </div>
+
+                    <div class="glossary-term">
+                        <dt>Lack</dt>
+                        <dd>The fundamental incompleteness that structures human desire. For Lacan, subjects are constitutively lacking — we can never achieve the wholeness we imagine. Desire emerges from this structural absence, endlessly seeking what can never be found.</dd>
+                    </div>
+                </div>
+            </section>
+
+            <!-- References -->
+            <div class="references" id="references">
+                <h2>References</h2>
+                <p>Irigaray, L. (1977) <em>This Sex Which Is Not One</em>. Ithaca: Cornell University Press.</p>
+                <p>Lacan, J. (2006) 'The Mirror Stage as Formative of the Function of the I', in <em>Écrits</em>. New York: W.W. Norton, pp. 75–81.</p>
+                <p>Minsky, R. (1996) <em>Psychoanalysis and Gender: An Introductory Reader</em>. London: Routledge.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>The Margins of Philosophy – Lacan: Language & the Structure of the Self</p>
+        <p>Creative Portfolio | 2025</p>
+    </footer>
+
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        let currentQuestion = 1;
+        let score = 0;
+        let answers = {};
+
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + '%';
+        });
+
+        // Active TOC Link on Scroll
+        const sections = document.querySelectorAll('section');
+        const tocLinks = document.querySelectorAll('#toc a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Quiz Functionality
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const questionNum = question.getAttribute('data-question');
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+
+                // Remove previous selections
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                    opt.style.pointerEvents = 'none';
+                });
+
+                // Mark this answer
+                if (isCorrect) {
+                    this.classList.add('correct');
+                    answers[questionNum] = true;
+                } else {
+                    this.classList.add('incorrect');
+                    answers[questionNum] = false;
+                    // Show correct answer
+                    question.querySelector('[data-correct="true"]').classList.add('correct');
+                }
+
+                // Show feedback
+                const feedback = question.querySelector('.quiz-feedback');
+                feedback.classList.add('show');
+                feedback.innerHTML = isCorrect ?
+                    '<strong>✓ Correct!</strong> Well done.' :
+                    '<strong>✗ Incorrect.</strong> The correct answer is highlighted above.';
+
+                // Enable next button
+                document.getElementById('next-btn').disabled = false;
+                if (questionNum === '5') {
+                    document.getElementById('submit-btn').style.display = 'inline-block';
+                }
+            });
+        });
+
+        function nextQuestion() {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions[currentQuestion - 1].classList.remove('active');
+            currentQuestion++;
+            if (currentQuestion <= 5) {
+                questions[currentQuestion - 1].classList.add('active');
+                document.getElementById('prev-btn').disabled = false;
+
+                // Check if current question has been answered
+                const isAnswered = answers[currentQuestion] !== undefined;
+                document.getElementById('next-btn').disabled = !isAnswered;
+
+                if (currentQuestion === 5) {
+                    document.getElementById('next-btn').style.display = 'none';
+                    if (isAnswered) {
+                        document.getElementById('submit-btn').style.display = 'inline-block';
+                    }
+                }
+            }
+        }
+
+        function previousQuestion() {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions[currentQuestion - 1].classList.remove('active');
+            currentQuestion--;
+            questions[currentQuestion - 1].classList.add('active');
+
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('submit-btn').style.display = 'none';
+
+            // Check if current question has been answered to enable/disable next button
+            const isAnswered = answers[currentQuestion] !== undefined;
+            document.getElementById('next-btn').disabled = !isAnswered;
+
+            if (currentQuestion === 1) {
+                document.getElementById('prev-btn').disabled = true;
+            }
+        }
+
+        function submitQuiz() {
+            // Calculate score
+            score = Object.values(answers).filter(val => val === true).length;
+
+            // Hide questions
+            document.querySelectorAll('.quiz-question').forEach(q => q.style.display = 'none');
+            document.querySelector('.quiz-navigation').style.display = 'none';
+
+            // Show results
+            const results = document.querySelector('.quiz-results');
+            results.classList.add('show');
+
+            document.querySelector('.quiz-score').textContent = `${score} / 5`;
+
+            let message = '';
+            if (score === 5) {
+                message = '🎉 Perfect score! You have an excellent understanding of Lacan\'s concepts and their application to digital culture.';
+            } else if (score >= 3) {
+                message = '👍 Good work! You have a solid grasp of the key Lacanian concepts discussed in this blog.';
+            } else {
+                message = '📚 Keep studying! Review the blog content to deepen your understanding of Lacan\'s theory.';
+            }
+
+            document.querySelector('.quiz-message').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            answers = {};
+
+            // Reset all options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                opt.style.pointerEvents = 'auto';
+            });
+
+            // Hide feedbacks
+            document.querySelectorAll('.quiz-feedback').forEach(f => {
+                f.classList.remove('show');
+            });
+
+            // Reset display
+            document.querySelectorAll('.quiz-question').forEach((q, i) => {
+                q.style.display = 'none';
+                if (i === 0) {
+                    q.classList.add('active');
+                    q.style.display = 'block';
+                } else {
+                    q.classList.remove('active');
+                }
+            });
+
+            document.querySelector('.quiz-results').classList.remove('show');
+            document.querySelector('.quiz-navigation').style.display = 'flex';
+            document.getElementById('prev-btn').disabled = true;
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('submit-btn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
